@@ -1,0 +1,116 @@
+package com.example.projectpets.ui.screens
+
+import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.painterResource
+import com.example.projectpets.R
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+
+@Composable
+fun LoginScreen() {
+    var user by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val mContext = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .navigationBarsPadding()
+            .padding(16.dp)
+            .imePadding(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(
+                text = "Mis Mascotas",
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+            Image(
+                painter = painterResource(R.drawable.user_image),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+            OutlinedTextField(
+                value = user,
+                onValueChange = { user = it },
+                label = { Text("Usuario") },
+                leadingIcon = { Icon(Icons.Default.Person, "Usuario") },
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .fillMaxWidth(fraction = 0.9f)
+                    .align(Alignment.CenterHorizontally)
+            )
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                leadingIcon = { Icon(Icons.Default.Person, "Contraseña") },
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .fillMaxWidth(fraction = 0.9f)
+                    .align(Alignment.CenterHorizontally)
+            )
+            //Aqui va el "Olvide mi contraseña"
+            Button(
+                onClick = {
+                    if (user.isEmpty()) {
+                        Toast.makeText(mContext, "Ingresa un usuario", Toast.LENGTH_SHORT).show()
+                    }
+                    if (password.isEmpty()) {
+                        Toast.makeText(mContext, "Ingresa una contraseña", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Text(
+                    text = "Iniciar Sesión",
+                    fontSize = 24.sp
+                )
+            }
+        }
+    }
+}
