@@ -2,6 +2,7 @@ package com.example.projectpets.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,11 +24,22 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TextButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -53,13 +65,18 @@ fun LoginScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.primary
+            )
         ) {
             Text(
                 text = "Mis Mascotas",
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth()
@@ -74,7 +91,7 @@ fun LoginScreen() {
             OutlinedTextField(
                 value = user,
                 onValueChange = { user = it },
-                label = { Text("Usuario") },
+                label = { Text("Usuario", color = MaterialTheme.colorScheme.primary) },
                 leadingIcon = { Icon(Icons.Default.Person, "Usuario") },
                 modifier = Modifier
                     .padding(vertical = 8.dp)
@@ -84,20 +101,30 @@ fun LoginScreen() {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Contraseña") },
-                leadingIcon = { Icon(Icons.Default.Person, "Contraseña") },
+                label = { Text("Contraseña", color = MaterialTheme.colorScheme.primary) },
+                leadingIcon = { Icon(Icons.Default.Lock, "Contraseña") },
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .fillMaxWidth(fraction = 0.9f)
                     .align(Alignment.CenterHorizontally)
             )
-            //Aqui va el "Olvide mi contraseña"
+            TextButton(
+                onClick = {
+                    //Funcionamiento del boton
+                },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Text("Olvidé mi Contraseña",
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            }
             Button(
                 onClick = {
                     if (user.isEmpty()) {
                         Toast.makeText(mContext, "Ingresa un usuario", Toast.LENGTH_SHORT).show()
                     }
-                    if (password.isEmpty()) {
+                    else if (password.isEmpty()) {
                         Toast.makeText(mContext, "Ingresa una contraseña", Toast.LENGTH_SHORT)
                             .show()
                     }

@@ -2,10 +2,9 @@ package com.example.projectpets.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+//Custom colors
+val col1 = Color(color = 0xFF8D5606)
+val col2 = Color(color = 0xFFBDAB47)
+val col3 = Color(color = 0xFF536766)
+val col4 = Color(color = 0xFF263347)
+val col5 = Color(color = 0xFF101D32)
