@@ -155,7 +155,7 @@ fun LoginScreen() {
 
 
 @Composable
-@Preview
+//@Preview
 fun SplashScreen() {
     //le podemos meter un parametro imagePet: String
     Box(

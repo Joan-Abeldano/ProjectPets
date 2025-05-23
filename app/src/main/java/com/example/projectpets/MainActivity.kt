@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.projectpets.ui.screens.LoginScreen
+import com.example.projectpets.ui.screens.SplashScreen
+import com.example.projectpets.ui.screens.SplashScreenPreview
 import com.example.projectpets.ui.theme.ProjectPetsTheme
 
 class MainActivity : ComponentActivity() {

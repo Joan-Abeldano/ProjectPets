@@ -72,9 +72,9 @@ fun SplashScreen(petName: String, imagePet: Int) {
 
         // Nombre del animal en la parte inferior izquierda
         Text(
-            text = "name",
+            text = petName,
             fontWeight = FontWeight.ExtraBold,
-            fontSize = 60.sp,
+            fontSize = 40.sp,
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .padding(0.dp,525.dp,20.dp,0.dp)
