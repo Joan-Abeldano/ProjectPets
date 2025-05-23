@@ -31,27 +31,24 @@ import com.example.projectpets.R
 
 @Composable
 fun SplashScreen(petName: String, imagePet: Int) {
-    //le podemos meter un parametro imagePet: String
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
         // Imagen de fondo
-        Image (//aqui si se puede pondriamos el nombre del parametro en vez del R.drawable.kaliman
+        Image (
             painter = painterResource(id = imagePet),
             contentDescription = "Pet image",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
-        // Botones en la parte superior
+        // Botones Login y SignUp
         Row (
             modifier = Modifier
                 .size(230.dp)
                 .padding(20.dp)
-                .align(Alignment.TopEnd)
-            ,
-
+                .align(Alignment.TopEnd),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button (
@@ -70,72 +67,11 @@ fun SplashScreen(petName: String, imagePet: Int) {
             }
         }
 
-        // Nombre del animal en la parte inferior izquierda
+        // Nombre de la mascota en la parte inferior izquierda
         Text(
             text = petName,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 40.sp,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(0.dp,525.dp,20.dp,0.dp)
-                .background(Color(0xAAFFFFFF), shape = RoundedCornerShape(0.dp,8.dp,8.dp,0.dp))
-                .border(
-                    width = 2.dp,
-                    color = Color.Black,
-                    shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
-                )
-                .padding(horizontal = 18.dp, vertical = 4.dp)
-        )
-    }
-}
-
-@Composable
-//@Preview
-fun SplashScreenPreview() {
-    //le podemos meter un parametro imagePet: String
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        // Imagen de fondo
-        Image (//aqui si se puede pondriamos el nombre del parametro en vez del R.drawable.kaliman
-            painter = painterResource(id = R.drawable.kaliman),
-            contentDescription = "Pet image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
-        // Botones en la parte superior
-        Row (
-            modifier = Modifier
-                .size(230.dp)
-                .padding(20.dp)
-                .align(Alignment.TopEnd)
-            ,
-
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Button (
-                onClick = { /* TODO: Navegar a Login */ },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107)),
-
-                ) {
-                Text("Login", color = Color.Black, fontWeight = FontWeight.W900)
-            }
-            Spacer(modifier = Modifier.width(5.dp))
-            Button(
-                onClick = { /* TODO: Navegar a Signup */ },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107))
-            ) {
-                Text("Signup", color = Color.Black, fontWeight = FontWeight.W900)
-            }
-        }
-
-        // Nombre del animal en la parte inferior izquierda
-        Text(
-            text = "name",
-            fontWeight = FontWeight.ExtraBold,
-            fontSize = 60.sp,
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .padding(0.dp,525.dp,20.dp,0.dp)
