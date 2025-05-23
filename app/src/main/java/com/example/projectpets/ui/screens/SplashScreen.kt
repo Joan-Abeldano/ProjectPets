@@ -90,7 +90,7 @@ fun SplashScreen(petName: String, imagePet: Int) {
 }
 
 @Composable
-@Preview
+//@Preview
 fun SplashScreenPreview() {
     //le podemos meter un parametro imagePet: String
     Box(
