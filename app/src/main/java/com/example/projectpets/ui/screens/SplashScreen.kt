@@ -3,6 +3,7 @@ package com.example.projectpets.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,21 +24,51 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.projectpets.R
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+
+
 
 
 @Composable
-fun SplashScreen(petName: String, imagePet: Int) {
+fun SplashScreen() {
+    val petImages = listOf(
+        R.drawable.kaliman,
+        R.drawable.pettwo,
+        R.drawable.petthree,
+        R.drawable.petfor
+    )
+    val namePets = listOf(
+        "Kaliman",
+        "Dorian",
+        "Curry",
+        "Bear"
+    )
+    var currentImageIndex by remember { mutableStateOf(0) }
+    var namePetsIndex by remember { mutableStateOf(0) }
     Box(
         modifier = Modifier
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        // Avanzar a la siguiente imagen
+                        currentImageIndex = (currentImageIndex + 1) % petImages.size
+                        namePetsIndex = (namePetsIndex + 1) % namePets.size
+                    }
+                )
+            }
             .fillMaxSize()
     ) {
         // Imagen de fondo
         Image (
-            painter = painterResource(id = imagePet),
+            painter = painterResource(id = petImages[currentImageIndex]),
             contentDescription = "Pet image",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -69,7 +100,7 @@ fun SplashScreen(petName: String, imagePet: Int) {
 
         // Nombre de la mascota en la parte inferior izquierda
         Text(
-            text = petName,
+            text = namePets[namePetsIndex],
             fontWeight = FontWeight.ExtraBold,
             fontSize = 40.sp,
             modifier = Modifier
