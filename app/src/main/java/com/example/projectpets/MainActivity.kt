@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.example.projectpets.models.Pet
 import com.example.projectpets.ui.screens.MyPetsScreen
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.projectpets.ui.screens.AddPetScreen
 import com.example.projectpets.ui.screens.LoginScreen
 import com.example.projectpets.ui.screens.PetDetailScreen
 import com.example.projectpets.ui.screens.SplashScreen
@@ -62,7 +63,8 @@ class MainActivity : ComponentActivity() {
                     */
                     // SplashScreen()
                    // LoginScreen()
-                     VaccinesControlScreen()
+                    // VaccinesControlScreen()
+                    AddPetScreen()
                 }
             }
         }
