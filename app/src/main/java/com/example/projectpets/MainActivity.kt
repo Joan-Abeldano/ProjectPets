@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyPetsScreen(pets)
+                    //MyPetsScreen(pets)
                     /*
                     val dummyPhotos = listOf(
                         "https://placedog.net/500/400?id=1",
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                     */
                     // SplashScreen()
                    // LoginScreen()
-                    VaccinesControlScreen()
+                     VaccinesControlScreen()
                 }
             }
         }
