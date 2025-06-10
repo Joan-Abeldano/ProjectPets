@@ -1,6 +1,8 @@
 package com.example.projectpets.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +37,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -156,7 +160,11 @@ fun ScrollContent(innerPadding: PaddingValues) {
             )
             Button(
                 onClick = { showModalInput = true },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .fillMaxWidth()
+                    .border(border = BorderStroke(8.dp, color = MaterialTheme.colorScheme.primary),shape = RectangleShape)
             ) {
                 if (petBirthDate != null) {
                     Text(formattedDate)
@@ -177,6 +185,21 @@ fun ScrollContent(innerPadding: PaddingValues) {
                     .padding(vertical = 8.dp)
                     .fillMaxWidth()
             )
+            Button(
+                onClick = {
+                    //Agregar mascota a BD y volver a MyPetsScreen
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = "Confirmar",
+                    color = MaterialTheme.colorScheme.surface,
+                    style = MaterialTheme.typography.headlineSmall
+                )
+            }
         }
     }
     if (showModalInput) {
