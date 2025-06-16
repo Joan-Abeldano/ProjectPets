@@ -29,13 +29,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    /*
+
                     val dummyPhotos = listOf(
                         "https://placedog.net/500/400?id=1",
                         "https://placedog.net/500/400?id=2",
                         "https://placedog.net/500/400?id=3"
                     )
-
+/*
                     val dummyDescription = "Perla es una perrita de pelaje blanco, suave y brillante. Es pequeña, juguetona, muy leal e inteligente. Se unió a su familia a los 3 meses de vida y desde entonces llena el hogar de alegría con su ternura y energía."
 
                     PetDetailScreen(
@@ -47,7 +47,8 @@ class MainActivity : ComponentActivity() {
                     */
                     // SplashScreen()
                    // LoginScreen()
-                    VaccinesControlScreen()
+                    //VaccinesControlScreen()
+                    PetDetailScreen("lola", "perrita jugetona", dummyPhotos)
                 }
             }
         }
