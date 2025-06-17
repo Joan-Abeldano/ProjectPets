@@ -3,7 +3,6 @@ package com.example.projectpets.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -31,6 +30,7 @@ fun PetDetailScreen(
     petPhotos: List<String>
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -47,7 +47,7 @@ fun PetDetailScreen(
                 }
             },
             actions = {
-                IconButton(onClick = { /* acción menú */ }) {
+                IconButton(onClick = { showBottomSheet = true }) {
                     Icon(Icons.Default.MoreVert, contentDescription = "Más")
                 }
             },
@@ -103,6 +103,111 @@ fun PetDetailScreen(
                     )
                 }
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Botón para mostrar detalles
+            Button(
+                onClick = { showBottomSheet = true },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8CB1C7))
+            ) {
+                Text("Detalles del control de $petName", color = Color.White)
+            }
         }
+    }
+
+    // ModalBottomSheet
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showBottomSheet = false },
+            containerColor = Color.White
+        ) {
+            PetDetailsBottomSheetContent(
+                petName = petName,
+                onDismiss = { showBottomSheet = false }
+            )
+        }
+    }
+}
+
+@Composable
+fun PetDetailsBottomSheetContent(
+    petName: String,
+    onDismiss: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        // Indicador visual (línea arriba)
+        Box(
+            modifier = Modifier
+                .width(40.dp)
+                .height(4.dp)
+                .clip(CircleShape)
+                .background(Color.LightGray)
+                .align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Opciones del menú
+        BottomSheetOption(
+            icon = "💉",
+            text = "Seguimiento Control de Vacuna",
+            onClick = {
+                // Acción para vacunas
+                onDismiss()
+            }
+        )
+
+        BottomSheetOption(
+            icon = "🏷️",
+            text = "Recordatorios",
+            onClick = {
+                // Acción para recordatorios
+                onDismiss()
+            }
+        )
+
+        BottomSheetOption(
+            icon = "📋",
+            text = "Exportar historial de vacunación de $petName",
+            onClick = {
+                // Acción para exportar
+                onDismiss()
+            }
+        )
+
+        // Espacio adicional al final
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
+@Composable
+fun BottomSheetOption(
+    icon: String,
+    text: String,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = icon,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(end = 16.dp)
+        )
+        Text(
+            text = text,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium
+        )
     }
 }
