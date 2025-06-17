@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.example.projectpets.models.Pet
 import com.example.projectpets.ui.screens.MyPetsScreen
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.projectpets.ui.screens.AddPetScreen
 import com.example.projectpets.ui.screens.LoginScreen
 import com.example.projectpets.ui.screens.PetDetailScreen
 import com.example.projectpets.ui.screens.SplashScreen
@@ -43,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyPetsScreen(pets)
+                    //MyPetsScreen(pets)
                     /*
                     val dummyPhotos = listOf(
                         "https://placedog.net/500/400?id=1",
@@ -62,7 +63,8 @@ class MainActivity : ComponentActivity() {
                     */
                     // SplashScreen()
                    // LoginScreen()
-                    VaccinesControlScreen()
+                    // VaccinesControlScreen()
+                    AddPetScreen()
                 }
             }
         }
