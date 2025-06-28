@@ -1,5 +1,6 @@
 package com.example.projectpets.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,15 +29,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.projectpets.models.Pet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPetsScreen(pets: List<Pet>) {
+fun MyPetsScreen(pets: List<Pet>, onPetClick: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -93,12 +92,12 @@ fun MyPetsScreen(pets: List<Pet>) {
             )
         },
     ) { innerPadding ->
-        ScrollContent(innerPadding,pets)
+        ScrollContent(innerPadding,pets,onPetClick)
     }
 }
 
 @Composable
-fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>) {
+fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>, onPetClick: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
@@ -110,14 +109,12 @@ fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .clickable { onPetClick()},
                 colors = CardDefaults.elevatedCardColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.primary
-                ),
-                onClick = {
-                    //Enviar argumento e ir a otra oantalla
-                }
+                )
             ) {
                 Column {
                     Text(
