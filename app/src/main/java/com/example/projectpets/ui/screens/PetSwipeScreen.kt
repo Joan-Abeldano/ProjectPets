@@ -36,7 +36,7 @@ import androidx.compose.runtime.remember
 
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
     val petImages = listOf(
         R.drawable.kaliman,
         R.drawable.pettwo,
@@ -81,7 +81,7 @@ fun SplashScreen() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button (
-                onClick = { /* TODO: Navegar a Login */ },
+                onClick = onLoginClick,
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107)),
 
                 ) {

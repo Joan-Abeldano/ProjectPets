@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VaccinesControlScreen() {
+fun VaccinesControlScreen(onBackClick: () -> Unit) {
     val vaccines = listOf(
         Vaccine("Vacuna contra el distemper", false),
         Vaccine("Vacuna contra parvovirus", true),
@@ -36,7 +36,7 @@ fun VaccinesControlScreen() {
             TopAppBar(
                 title = { Text("Vacunas") },
                 navigationIcon = {
-                    IconButton(onClick = { /* volver */ }) {
+                    IconButton(onClick = onBackClick) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
                     }
                 },

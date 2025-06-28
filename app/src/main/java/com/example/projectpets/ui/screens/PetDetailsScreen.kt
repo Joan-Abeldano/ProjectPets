@@ -27,7 +27,9 @@ import coil.compose.rememberAsyncImagePainter
 fun PetDetailScreen(
     petName: String,
     petDescription: String,
-    petPhotos: List<String>
+    petPhotos: List<String>,
+    onBackClick: () -> Unit,
+    onVaccineControlClick: () -> Unit
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -42,7 +44,7 @@ fun PetDetailScreen(
                 Text(text = petName, fontWeight = FontWeight.Bold)
             },
             navigationIcon = {
-                IconButton(onClick = { /* acción atrás */ }) {
+                IconButton(onClick = onBackClick) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Atrás")
                 }
             },
@@ -125,7 +127,8 @@ fun PetDetailScreen(
         ) {
             PetDetailsBottomSheetContent(
                 petName = petName,
-                onDismiss = { showBottomSheet = false }
+                onDismiss = { showBottomSheet = false },
+                onVaccineControlClick
             )
         }
     }
@@ -134,7 +137,8 @@ fun PetDetailScreen(
 @Composable
 fun PetDetailsBottomSheetContent(
     petName: String,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onVaccineControlClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -157,10 +161,7 @@ fun PetDetailsBottomSheetContent(
         BottomSheetOption(
             icon = "💉",
             text = "Seguimiento Control de Vacuna",
-            onClick = {
-                // Acción para vacunas
-                onDismiss()
-            }
+            onClick = onVaccineControlClick
         )
 
         BottomSheetOption(
