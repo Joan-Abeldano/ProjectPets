@@ -33,6 +33,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,14 +42,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projectpets.AppContainer
+import com.example.projectpets.data.User
+import com.example.projectpets.models.UserData
+import com.example.projectpets.repositories.UserRepository
+import com.example.projectpets.viewmodel.LoginViewModel
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit) {
+fun LoginScreen(onLoginSuccess: () -> Unit,
+                viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val mContext = LocalContext.current
     var remPassword by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -147,8 +157,20 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     else if (password.isEmpty()) {
                         Toast.makeText(mContext, "Ingresa una contraseña", Toast.LENGTH_SHORT)
                             .show()
+                    } else {
+                        scope.launch {
+                            viewModel.getUser(user,password)
+                                .collect { userList ->
+                                    if (userList.isNotEmpty()) {
+                                        onLoginSuccess()
+                                    }
+                                    else {
+                                        Toast.makeText(mContext, "El usuario no existe", Toast.LENGTH_SHORT).show()
+                                        //viewModel.insertUser(UserData(user,password))
+                                    }
+                                }
+                        }
                     }
-                    onLoginSuccess()
                 },
                 modifier = Modifier
                     .padding(8.dp)
