@@ -7,8 +7,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -99,6 +98,7 @@ fun SplashScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
         // Nombre de la mascota en la parte inferior izquierda
         Text(
             text = namePets[namePetsIndex],
+            color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 40.sp,
             modifier = Modifier

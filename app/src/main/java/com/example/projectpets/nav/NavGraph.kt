@@ -10,6 +10,10 @@ import com.example.projectpets.ui.screens.MyPetsScreen
 import com.example.projectpets.ui.screens.PetDetailScreen
 import com.example.projectpets.ui.screens.SplashScreen
 import com.example.projectpets.ui.screens.VaccinesControlScreen
+import com.example.projectpets.ui.screens.FormReminderScreen
+import com.example.projectpets.ui.screens.ReminderListScreen
+import com.example.projectpets.models.Reminder
+import com.example.projectpets.ui.screens.AddPetScreen
 
 object Routes {
     const val SPLASH = "splash"
@@ -18,6 +22,9 @@ object Routes {
     const val MY_PETS = "my_pets"
     const val PET_DETAILS = "pet_details"
     const val VACCINE_CONTROL = "vaccine_control"
+    const val FORM_REMINDER = "form_reminder"
+    const val LIST_REMINDERS = "list_reminders"
+    const val ADD_PET = "add_pet"
 }
 
 @Composable
@@ -43,6 +50,34 @@ fun Nav() {
         navController = navController,
         startDestination = Routes.SPLASH
     ) {
+
+        //Composables to ReminderScreens
+        composable(Routes.FORM_REMINDER) {
+            FormReminderScreen(
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+
+        composable(Routes.LIST_REMINDERS) {
+            // Lista dummy para probar la pantalla
+            val sampleReminders = listOf(
+                Reminder(date = "23/06/2024", time = "11:00 a.m"),
+                Reminder(date = "29/02/2024", time = "9:00 a.m"),
+                Reminder(date = "20/06/2024", time = "10:00 a.m"),
+                Reminder(date = "07/12/2024", time = "2:00 p.m")
+            )
+
+            ReminderListScreen(
+                reminders = sampleReminders,
+                onDelete = {},
+                onBackClick = { navController.popBackStack() },
+                onAddReminderClick = {
+                    navController.navigate(Routes.FORM_REMINDER)
+                }
+            )
+        }
+
+
         composable(Routes.SPLASH) {
             SplashScreen(
                 onLoginClick = { navController.navigate(Routes.LOGIN) },
@@ -58,6 +93,8 @@ fun Nav() {
             )
         }
 
+
+
 //        composable(Routes.REGISTER) {
 //            RegisterScreen(
 //                onRegisterSuccess = { navController.navigate(Routes.MY_PETS) {
@@ -72,10 +109,15 @@ fun Nav() {
                 petData,
                 onPetClick = {
                     navController.navigate(Routes.PET_DETAILS)
+                },
+                onAddPetClick = {
+                    navController.navigate(Routes.ADD_PET)
                 }
             )
         }
-
+        composable(Routes.ADD_PET) {
+            AddPetScreen(onBackClick = { navController.popBackStack() })
+        }
         composable(
             route = Routes.PET_DETAILS,
         ) { backStackEntry ->
@@ -86,6 +128,9 @@ fun Nav() {
                 onBackClick = { navController.popBackStack() },
                 onVaccineControlClick = {
                     navController.navigate(Routes.VACCINE_CONTROL)
+                },
+                onReminderClick = {
+                    navController.navigate(Routes.LIST_REMINDERS)
                 }
             )
         }
@@ -95,6 +140,7 @@ fun Nav() {
         ) { backStackEntry ->
             VaccinesControlScreen(
                 onBackClick = { navController.popBackStack() },
+                onAddPetClick = { navController.navigate(Routes.ADD_PET) }
             )
         }
 

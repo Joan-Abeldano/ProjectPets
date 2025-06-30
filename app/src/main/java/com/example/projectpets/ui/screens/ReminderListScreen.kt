@@ -5,9 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,42 +21,73 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projectpets.models.Reminder
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReminderListScreen(
     reminders: List<Reminder>,
     onDelete: (Reminder) -> Unit,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onAddReminderClick: () -> Unit // Nuevo parámetro FormReminderScreen
 ) {
+    var showBottomSheet by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Encabezado
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFF6A9EBB))
-                .padding(12.dp)
-        ) {
-            IconButton(onClick = onBackClick) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Atrás", tint = Color.White)
-            }
-            Text(
-                text = "Recordatorios",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(1f)
-            )
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Notificación",
-                tint = Color.White
-            )
-        }
+
+        CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.primary,
+                scrolledContainerColor = MaterialTheme.colorScheme.primary
+            ),
+            title = {
+                Text(text = "Lista de Recordatorios",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.surface,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold)
+            },
+            navigationIcon = {
+                IconButton(onClick = onBackClick,
+                    colors = IconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Transparent,
+                        disabledContentColor = MaterialTheme.colorScheme.surface,
+                        disabledContainerColor = Color.Transparent
+                    )
+                    ) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Atrás")
+                }
+            },
+            actions = {
+                IconButton(onClick = onAddReminderClick,
+                    colors = IconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Transparent,
+                        disabledContentColor = MaterialTheme.colorScheme.surface,
+                        disabledContainerColor = Color.Transparent
+                    )
+                    ) {
+                    Icon(Icons.Default.Notifications, contentDescription = "Agregar recordatorio")
+                }
+                IconButton(onClick = { /* perfil */ },
+                    colors = IconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Transparent,
+                        disabledContentColor = MaterialTheme.colorScheme.surface,
+                        disabledContainerColor = Color.Transparent
+                    )
+                ) {
+                    Icon(Icons.Default.Person, contentDescription = "Perfil")
+                }
+            },
+
+        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -69,52 +103,54 @@ fun ReminderListScreen(
         }
     }
 }
-
 @Composable
 fun ReminderItem(reminder: Reminder, onDelete: (Reminder) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 4.dp),
+            .padding(horizontal = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.DarkGray),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Default.Notifications,
                     contentDescription = "Recordatorio",
-                    tint = Color.Black,
+                    tint = Color.White,
                     modifier = Modifier.padding(end = 8.dp)
                 )
                 Column {
-                    Text("Visita al de rutina al veterinario", fontWeight = FontWeight.Bold)
-                    Text("Sonará el ${reminder.date} a las ${reminder.time}")
+                    Text(
+                        "Visita de rutina al veterinario",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        "Sonará el ${reminder.date} a las ${reminder.time}",
+                        color = Color.White
+                    )
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(
-                onClick = { onDelete(reminder) },
-                modifier = Modifier.align(Alignment.End),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Botón alineado a la derecha, mejor estilizado
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
-                Text("🗑 Delete Reminder", color = Color.White)
+                OutlinedButton(
+                    onClick = { onDelete(reminder) },
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = Color(0xFFB00020),
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text("🗑 Eliminar")
+                }
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ReminderListScreenPreview() {
-    val sampleReminders = listOf(
-        Reminder(date = "23/06/2024", time = "11:00 a.m"),
-        Reminder(date = "29/02/2024", time = "9:00 a.m"),
-        Reminder(date = "20/06/2024", time = "10:00 a.m"),
-        Reminder(date = "07/12/2024", time = "2:00 p.m")
-    )
-
-    ReminderListScreen(
-        reminders = sampleReminders,
-        onDelete = {}
-    )
 }

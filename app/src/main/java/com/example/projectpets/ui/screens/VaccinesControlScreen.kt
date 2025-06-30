@@ -14,15 +14,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VaccinesControlScreen(onBackClick: () -> Unit) {
+fun VaccinesControlScreen(onBackClick: () -> Unit, onAddPetClick: () -> Unit) {
     val vaccines = listOf(
         Vaccine("Vacuna contra el distemper", false),
         Vaccine("Vacuna contra parvovirus", true),
@@ -30,25 +32,57 @@ fun VaccinesControlScreen(onBackClick: () -> Unit) {
         Vaccine("Vacuna contra la leptospirosis", false),
         Vaccine("Vacuna contra la rabia. Esta vacuna debe ser aplicada anualmente por ley en todos los caninos", true)
     )
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(
-                title = { Text("Vacunas") },
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    scrolledContainerColor = MaterialTheme.colorScheme.primary
+                ),
+                title = { Text("Vacunas",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.surface,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold) },
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) {
+                    IconButton(onClick = onBackClick,
+                        colors = IconButtonColors(
+                            contentColor = MaterialTheme.colorScheme.surface,
+                            containerColor = Color.Transparent,
+                            disabledContentColor = MaterialTheme.colorScheme.surface,
+                            disabledContainerColor = Color.Transparent
+                        )
+                        ) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* agregar */ }) {
+                    IconButton(onClick =  onAddPetClick,
+                        colors = IconButtonColors(
+                            contentColor = MaterialTheme.colorScheme.surface,
+                            containerColor = Color.Transparent,
+                            disabledContentColor = MaterialTheme.colorScheme.surface,
+                            disabledContainerColor = Color.Transparent
+                        )
+                        ) {
                         Icon(Icons.Default.Add, contentDescription = "Agregar")
                     }
-                    IconButton(onClick = { /* perfil */ }) {
+                    IconButton(onClick = { /* perfil */ },
+                        colors = IconButtonColors(
+                            contentColor = MaterialTheme.colorScheme.surface,
+                            containerColor = Color.Transparent,
+                            disabledContentColor = MaterialTheme.colorScheme.surface,
+                            disabledContainerColor = Color.Transparent
+                        )
+                        ) {
                         Icon(Icons.Default.Person, contentDescription = "Perfil")
                     }
-                },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Color(0xFF8CB1C7))
+                }
             )
         }
     ) { innerPadding ->
@@ -61,12 +95,13 @@ fun VaccinesControlScreen(onBackClick: () -> Unit) {
         ) {
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Edit, contentDescription = null, tint = Color(0xFFB49165))
+                Icon(Icons.Default.Edit, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     "Vacunas esenciales",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 35.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
 
@@ -95,20 +130,14 @@ fun VaccinesControlScreen(onBackClick: () -> Unit) {
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Text(
-                "Las vacunas deben comenzar a administrarse entre las 6 y 9 semanas de vida de los cachorros",
-                color = Color.Black
-            )
-
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 "“Las vacunas deben comenzar a administrarse entre las 6 y 9 semanas de vida de los cachorros.”",
                 fontSize = 16.sp,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }
