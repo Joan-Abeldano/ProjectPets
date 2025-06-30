@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.projectpets.models.Pet
+import com.example.projectpets.models.PetData
 import com.example.projectpets.ui.screens.LoginScreen
 import com.example.projectpets.ui.screens.MyPetsScreen
 import com.example.projectpets.ui.screens.PetDetailScreen
@@ -31,13 +31,13 @@ object Routes {
 fun Nav() {
     val navController = rememberNavController()
 
-    val pets = listOf(
-        Pet("AAAAAAA","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
-        Pet("BBBBBBB","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
-        Pet("CCCCCCC","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
-        Pet("DDDDDDD","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
-        Pet("EEEEEEE","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
-        Pet("FFFFFFF","dsajdhkasjhdkjahksa","26/04/2004","Perro")
+    val petData = listOf(
+        PetData("AAAAAAA","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
+        PetData("BBBBBBB","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
+        PetData("CCCCCCC","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
+        PetData("DDDDDDD","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
+        PetData("EEEEEEE","dsajdhkasjhdkjahksa","26/04/2004","Perro"),
+        PetData("FFFFFFF","dsajdhkasjhdkjahksa","26/04/2004","Perro")
     )
 
     val dummyPhotos = listOf(
@@ -106,7 +106,7 @@ fun Nav() {
 
         composable(Routes.MY_PETS) {
             MyPetsScreen(
-                pets,
+                petData,
                 onPetClick = {
                     navController.navigate(Routes.PET_DETAILS)
                 },

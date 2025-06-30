@@ -38,11 +38,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projectpets.models.Pet
+import com.example.projectpets.models.PetData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPetsScreen(pets: List<Pet>, onPetClick: () -> Unit, onAddPetClick: () -> Unit) {
+fun MyPetsScreen(petData: List<PetData>, onPetClick: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -114,14 +114,14 @@ fun MyPetsScreen(pets: List<Pet>, onPetClick: () -> Unit, onAddPetClick: () -> U
             )
         },
     ) { innerPadding ->
-        ScrollContent(innerPadding,pets,onPetClick)
+        ScrollContent(innerPadding,petData,onPetClick)
     }
 }
 
 
 
 @Composable
-fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>, onPetClick: () -> Unit) {
+fun ScrollContent(innerPadding: PaddingValues, petsList: List<PetData>, onPetClick: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
