@@ -14,6 +14,7 @@ import com.example.projectpets.ui.screens.FormReminderScreen
 import com.example.projectpets.ui.screens.ReminderListScreen
 import com.example.projectpets.models.Reminder
 import com.example.projectpets.ui.screens.AddPetScreen
+import com.example.projectpets.ui.screens.RegisterScreen
 
 object Routes {
     const val SPLASH = "splash"
@@ -89,20 +90,20 @@ fun Nav() {
             LoginScreen(
                 onLoginSuccess = { navController.navigate(Routes.MY_PETS) {
                     popUpTo(Routes.SPLASH) { inclusive = true }
-                }}
+                }},
+                onRegisterClick = { navController.navigate(Routes.REGISTER) }
             )
         }
 
 
 
-//        composable(Routes.REGISTER) {
-//            RegisterScreen(
-//                onRegisterSuccess = { navController.navigate(Routes.MY_PETS) {
-//                    popUpTo(Routes.SPLASH) { inclusive = true }
-//                }},
-//                onBackClick = { navController.popBackStack() }
-//            )
-//        }
+        composable(Routes.REGISTER) {
+            RegisterScreen(
+                onRegisterSuccess = { navController.navigate(Routes.MY_PETS) {
+                    popUpTo(Routes.SPLASH) { inclusive = true }
+                }}
+            )
+        }
 
         composable(Routes.MY_PETS) {
             MyPetsScreen(
