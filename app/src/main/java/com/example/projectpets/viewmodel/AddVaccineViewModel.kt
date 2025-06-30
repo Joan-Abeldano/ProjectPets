@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class AddVaccineViewModel (private val vaccineRepository: VaccineRepository) : ViewModel() {
     fun insertVaccine(vaccine: VaccineData) = viewModelScope.launch {
-        vaccineRepository.insertVaccine(Vaccine(id = 0, name = vaccine.name, date = vaccine.date, description = vaccine.description, given = vaccine.given, idPet = 0))
+        vaccineRepository.insertVaccine(Vaccine(id = 0, name = vaccine.name, date = vaccine.date, description = vaccine.description, given = vaccine.given, idPet = vaccine.idPet))
     }
 
     companion object {

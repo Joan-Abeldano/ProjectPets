@@ -77,7 +77,7 @@ fun VaccinesControlScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick =  onAddVaccineClick,
+                    IconButton(onClick =  {onAddVaccineClick()},
                         colors = IconButtonColors(
                             contentColor = MaterialTheme.colorScheme.surface,
                             containerColor = Color.Transparent,

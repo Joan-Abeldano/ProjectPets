@@ -28,7 +28,7 @@ object Routes {
     const val FORM_REMINDER = "form_reminder"
     const val LIST_REMINDERS = "list_reminders"
     const val ADD_PET = "add_pet"
-    const val ADD_VACCINE = "add_vaccine"
+    const val ADD_VACCINE = "add_vaccine/{petId}"
 }
 
 @Composable
@@ -152,7 +152,7 @@ fun Nav() {
             VaccinesControlScreen(
                 onBackClick = { navController.popBackStack() },
                 onAddVaccineClick = {
-                    navController.navigate(Routes.ADD_VACCINE)
+                    navController.navigate("add_vaccine/$petId")
                 },
                 petId = petId
             )
@@ -160,13 +160,14 @@ fun Nav() {
 
         composable(
             route = Routes.ADD_VACCINE,
+            arguments = listOf(navArgument("petId") { type = NavType.IntType })
         ) { backStackEntry ->
+            val petId = backStackEntry.arguments?.getInt("petId") ?: -1
+
             AddVaccineForm(
+                actualPetId = petId,
                 onBackClick = { navController.popBackStack() },
-                onGuardarClick = { name, date, desc, admin, tachar ->
-                    // Handle saving the vaccine here
-                    navController.popBackStack()
-                }
+                onGuardarClick = { navController.popBackStack() }
             )
         }
     }

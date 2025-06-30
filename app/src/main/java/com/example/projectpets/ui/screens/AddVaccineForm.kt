@@ -28,8 +28,9 @@ import com.example.projectpets.viewmodel.AddVaccineViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddVaccineForm(
+    actualPetId: Int,
     onBackClick: () -> Unit = {},
-    onGuardarClick: (String, String, String, Boolean, Boolean) -> Unit = { _, _, _, _, _ -> },
+    onGuardarClick: () -> Unit = {},
     viewModel: AddVaccineViewModel = viewModel(factory = AddVaccineViewModel.Factory)
 ) {
     var nombreVacuna by remember { mutableStateOf("") }
@@ -224,8 +225,15 @@ fun AddVaccineForm(
             // Botón Guardar
             Button(
                 onClick = {
-                    onGuardarClick(nombreVacuna, fecha, descripcion, marcarAdministrada, tachar)
-                    viewModel.insertVaccine(VaccineData(nombreVacuna,fecha,descripcion,marcarAdministrada))
+                    val vaccine = VaccineData(
+                        idPet = actualPetId,  // Must be valid
+                        name = nombreVacuna,
+                        date = fecha,
+                        description = descripcion,
+                        given = marcarAdministrada
+                    )
+                    viewModel.insertVaccine(vaccine)
+                    onGuardarClick()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -241,14 +249,5 @@ fun AddVaccineForm(
                 )
             }
         }
-    }
-}
-
-// Preview
-@Preview(showBackground = true)
-@Composable
-fun AgregarVacunasScreenPreview() {
-    MaterialTheme {
-        AddVaccineForm()
     }
 }

@@ -3,6 +3,7 @@ package com.example.projectpets.models
 import com.example.projectpets.data.Vaccine
 
 data class VaccineData (
+    val idPet: Int,
     val name: String,
     val date: String,
     val description: String,
@@ -15,5 +16,5 @@ fun VaccineData.toItem() = Vaccine(
     date = date,
     description = description,
     given = given,
-    idPet = 0
+    idPet = idPet
 )
