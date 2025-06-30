@@ -14,6 +14,7 @@ import com.example.projectpets.ui.screens.FormReminderScreen
 import com.example.projectpets.ui.screens.ReminderListScreen
 import com.example.projectpets.models.Reminder
 import com.example.projectpets.ui.screens.AddPetScreen
+import com.example.projectpets.ui.screens.AddVaccineForm
 
 object Routes {
     const val SPLASH = "splash"
@@ -25,6 +26,7 @@ object Routes {
     const val FORM_REMINDER = "form_reminder"
     const val LIST_REMINDERS = "list_reminders"
     const val ADD_PET = "add_pet"
+    const val ADD_VACCINE = "add_vaccine"
 }
 
 @Composable
@@ -54,7 +56,8 @@ fun Nav() {
         //Composables to ReminderScreens
         composable(Routes.FORM_REMINDER) {
             FormReminderScreen(
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                onSaveReminder = { navController.popBackStack() }
             )
         }
 
@@ -140,20 +143,22 @@ fun Nav() {
         ) { backStackEntry ->
             VaccinesControlScreen(
                 onBackClick = { navController.popBackStack() },
-                onAddPetClick = { navController.navigate(Routes.ADD_PET) }
+                onAddVaccineClick = {
+                    navController.navigate(Routes.ADD_VACCINE)
+                }
             )
         }
 
-//        composable(
-//            route = Routes.ADD_VACCINE,
-//            arguments = listOf(navArgument("petId") { type = NavType.StringType })
-//        ) { backStackEntry ->
-//            val petId = backStackEntry.arguments?.getString("petId") ?: ""
-//            AddVaccineForm(
-//                petId = petId,
-//                onBackClick = { navController.popBackStack() },
-//                onSaveSuccess = { navController.popBackStack() }
-//            )
-//        }
+        composable(
+            route = Routes.ADD_VACCINE,
+        ) { backStackEntry ->
+            AddVaccineForm(
+                onBackClick = { navController.popBackStack() },
+                onGuardarClick = { name, date, desc, admin, tachar ->
+                    // Handle saving the vaccine here
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 }

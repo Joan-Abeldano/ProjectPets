@@ -5,31 +5,27 @@ import android.widget.DatePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FormReminderScreen(onBackClick: () -> Unit = {}) {
+fun FormReminderScreen(onBackClick: () -> Unit = {}, onSaveReminder: () -> Boolean) {
     var name by remember { mutableStateOf(TextFieldValue("")) }
     var date by remember { mutableStateOf("") }
     var description by remember { mutableStateOf(TextFieldValue("")) }
@@ -138,6 +134,7 @@ fun FormReminderScreen(onBackClick: () -> Unit = {}) {
             Button(
                 onClick = {
                     // Acción para guardar recordatorio
+                    onSaveReminder()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

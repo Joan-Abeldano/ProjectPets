@@ -24,7 +24,10 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VaccinesControlScreen(onBackClick: () -> Unit, onAddPetClick: () -> Unit) {
+fun VaccinesControlScreen(
+    onBackClick: () -> Unit,
+    onAddVaccineClick: () -> Unit
+) {
     val vaccines = listOf(
         Vaccine("Vacuna contra el distemper", false),
         Vaccine("Vacuna contra parvovirus", true),
@@ -62,7 +65,7 @@ fun VaccinesControlScreen(onBackClick: () -> Unit, onAddPetClick: () -> Unit) {
                     }
                 },
                 actions = {
-                    IconButton(onClick =  onAddPetClick,
+                    IconButton(onClick =  onAddVaccineClick,
                         colors = IconButtonColors(
                             contentColor = MaterialTheme.colorScheme.surface,
                             containerColor = Color.Transparent,
