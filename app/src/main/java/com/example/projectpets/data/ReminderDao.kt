@@ -12,6 +12,6 @@ interface ReminderDao {
     suspend fun insertReminder(reminder: Reminder)
     @Delete
     suspend fun deleteAllReminders(allReminders: List<Reminder>)
-    @Query("SELECT name,date,description FROM ReminderData WHERE id_pet=:id ORDER by id ASC")
+    @Query("SELECT id, name, date, description, id_pet FROM ReminderData WHERE id_pet=:id ORDER by id ASC")
     fun getAllReminders(id: Int): Flow<List<Reminder>>
 }

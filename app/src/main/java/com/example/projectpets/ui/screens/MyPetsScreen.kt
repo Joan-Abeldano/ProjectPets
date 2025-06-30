@@ -42,7 +42,7 @@ import com.example.projectpets.models.PetData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPetsScreen(petData: List<PetData>, onPetClick: () -> Unit) {
+fun MyPetsScreen(petData: List<PetData>, onPetClick: () -> Unit, onAddPetClick: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
