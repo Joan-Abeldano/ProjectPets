@@ -1,5 +1,6 @@
 package com.example.projectpets.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -35,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -47,7 +50,7 @@ import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPetsScreen(onPetClick: () -> Unit, onAddPetClick: () -> Unit,
+fun MyPetsScreen(onPetClick: (id:Int) -> Unit, onAddPetClick: () -> Unit,
                  viewModel: MyPetsViewModel = viewModel(factory = MyPetsViewModel.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -129,7 +132,8 @@ fun MyPetsScreen(onPetClick: () -> Unit, onAddPetClick: () -> Unit,
 
 
 @Composable
-fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>, onPetClick: () -> Unit) {
+fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>, onPetClick: (id:Int) -> Unit) {
+    val mContext = LocalContext.current
     LazyColumn(
         modifier = Modifier
             .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
@@ -137,12 +141,15 @@ fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>, onPetClick: 
         contentPadding = innerPadding,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(petsList.size) { index ->
+        items(petsList) { pet ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxSize()
-                    .clickable { onPetClick()},
+                    .clickable {
+                        println(pet.id)
+                        onPetClick(pet.id)
+                    },
                 colors = CardDefaults.elevatedCardColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.primary
@@ -150,7 +157,7 @@ fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>, onPetClick: 
             ) {
                 Column{
                     Text(
-                        text = petsList[index].name,
+                        text = pet.name,
                         style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier
                             .padding(start = 20.dp)
@@ -167,7 +174,7 @@ fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>, onPetClick: 
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = petsList[index].description,
+                            text = pet.description,
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }

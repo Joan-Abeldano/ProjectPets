@@ -21,12 +21,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projectpets.models.VaccineData
+import com.example.projectpets.viewmodel.AddVaccineViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddVaccineForm(
     onBackClick: () -> Unit = {},
-    onGuardarClick: (String, String, String, Boolean, Boolean) -> Unit = { _, _, _, _, _ -> }
+    onGuardarClick: (String, String, String, Boolean, Boolean) -> Unit = { _, _, _, _, _ -> },
+    viewModel: AddVaccineViewModel = viewModel(factory = AddVaccineViewModel.Factory)
 ) {
     var nombreVacuna by remember { mutableStateOf("") }
     var fecha by remember { mutableStateOf("") }
@@ -221,6 +225,7 @@ fun AddVaccineForm(
             Button(
                 onClick = {
                     onGuardarClick(nombreVacuna, fecha, descripcion, marcarAdministrada, tachar)
+                    viewModel.insertVaccine(VaccineData(nombreVacuna,fecha,descripcion,marcarAdministrada))
                 },
                 modifier = Modifier
                     .fillMaxWidth()

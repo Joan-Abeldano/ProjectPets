@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,21 +22,32 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projectpets.viewmodel.VaccinesControlViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VaccinesControlScreen(
     onBackClick: () -> Unit,
-    onAddVaccineClick: () -> Unit
+    onAddVaccineClick: () -> Unit,
+    viewModel: VaccinesControlViewModel = viewModel(factory = VaccinesControlViewModel.Factory),
+    petId: Int
 ) {
-    val vaccines = listOf(
-        Vaccine("Vacuna contra el distemper", false),
-        Vaccine("Vacuna contra parvovirus", true),
-        Vaccine("Vacuna contra la hepatitis infecciosa canina o adenovirus canino 2 (AVC-2)", true),
-        Vaccine("Vacuna contra la leptospirosis", false),
-        Vaccine("Vacuna contra la rabia. Esta vacuna debe ser aplicada anualmente por ley en todos los caninos", true)
-    )
+//    val vaccines = listOf(
+//        Vaccine("Vacuna contra el distemper", false),
+//        Vaccine("Vacuna contra parvovirus", true),
+//        Vaccine("Vacuna contra la hepatitis infecciosa canina o adenovirus canino 2 (AVC-2)", true),
+//        Vaccine("Vacuna contra la leptospirosis", false),
+//        Vaccine("Vacuna contra la rabia. Esta vacuna debe ser aplicada anualmente por ley en todos los caninos", true)
+//    )
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
+
+    val vaccines by viewModel.vaccines.observeAsState(emptyList())
+
+    LaunchedEffect(petId) {
+        viewModel.loadVaccines(petId)
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -119,14 +131,14 @@ fun VaccinesControlScreen(
                         Box(
                             modifier = Modifier
                                 .size(20.dp)
-                                .background(if (vaccine.applied) Color.Yellow else Color(0xFFE57373))
+                                .background(if (vaccine.given) Color.Yellow else Color(0xFFE57373))
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = vaccine.name,
                             style = TextStyle(
-                                color = if (vaccine.applied) Color(0xFF66BB6A) else Color.Black,
-                                textDecoration = if (vaccine.applied) TextDecoration.LineThrough else null
+                                color = if (vaccine.given) Color(0xFF66BB6A) else Color.Black,
+                                textDecoration = if (vaccine.given) TextDecoration.LineThrough else null
                             )
                         )
                     }
@@ -146,4 +158,4 @@ fun VaccinesControlScreen(
     }
 }
 
-data class Vaccine(val name: String, val applied: Boolean)
+//data class Vaccine(val name: String, val applied: Boolean)

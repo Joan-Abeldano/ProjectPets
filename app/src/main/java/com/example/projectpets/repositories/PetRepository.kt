@@ -10,4 +10,6 @@ class PetRepository(private val petDao: PetDao) {
     suspend fun insertPet(pet: Pet) = petDao.insertPet(pet)
 
     suspend fun deleteAllPets(allPets: List<Pet>) = petDao.deleteAllPets(allPets)
+
+    fun getSinglePet(idPet: Int): Flow<List<Pet>> = petDao.getSinglePet(idPet)
 }

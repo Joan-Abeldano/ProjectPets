@@ -1,9 +1,11 @@
 package com.example.projectpets.nav
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.projectpets.models.PetData
 import com.example.projectpets.ui.screens.LoginScreen
 import com.example.projectpets.ui.screens.MyPetsScreen
@@ -21,8 +23,8 @@ object Routes {
     const val LOGIN = "login"
     const val REGISTER = "register"
     const val MY_PETS = "my_pets"
-    const val PET_DETAILS = "pet_details"
-    const val VACCINE_CONTROL = "vaccine_control"
+    const val PET_DETAILS = "pet_details/{petId}"
+    const val VACCINE_CONTROL = "vaccine_control/{petId}"
     const val FORM_REMINDER = "form_reminder"
     const val LIST_REMINDERS = "list_reminders"
     const val ADD_PET = "add_pet"
@@ -109,27 +111,31 @@ fun Nav() {
 
         composable(Routes.MY_PETS) {
             MyPetsScreen(
-                onPetClick = {
-                    navController.navigate(Routes.PET_DETAILS)
+                onPetClick = { petId ->
+                    navController.navigate("pet_details/$petId")
                 },
                 onAddPetClick = {
                     navController.navigate(Routes.ADD_PET)
                 }
             )
         }
+
         composable(Routes.ADD_PET) {
             AddPetScreen(onBackClick = { navController.popBackStack() })
         }
+
         composable(
             route = Routes.PET_DETAILS,
+            arguments = listOf(navArgument("petId") { type = NavType.IntType })
         ) { backStackEntry ->
+            val petId = backStackEntry.arguments?.getInt("petId") ?: -1
+
             PetDetailScreen(
-                "lola",
-                "perrita juguetona",
-                dummyPhotos,
+                petId = petId,
+                petPhotos = dummyPhotos,
                 onBackClick = { navController.popBackStack() },
-                onVaccineControlClick = {
-                    navController.navigate(Routes.VACCINE_CONTROL)
+                onVaccineControlClick = { petId ->
+                    navController.navigate("vaccine_control/$petId")
                 },
                 onReminderClick = {
                     navController.navigate(Routes.LIST_REMINDERS)
@@ -139,12 +145,16 @@ fun Nav() {
 
         composable(
             route = Routes.VACCINE_CONTROL,
+            arguments = listOf(navArgument("petId") { type = NavType.IntType })
         ) { backStackEntry ->
+            val petId = backStackEntry.arguments?.getInt("petId") ?: 0
+
             VaccinesControlScreen(
                 onBackClick = { navController.popBackStack() },
                 onAddVaccineClick = {
                     navController.navigate(Routes.ADD_VACCINE)
-                }
+                },
+                petId = petId
             )
         }
 

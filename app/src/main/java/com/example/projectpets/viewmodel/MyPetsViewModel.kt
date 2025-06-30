@@ -12,7 +12,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projectpets.PetsApplication
 import com.example.projectpets.data.Pet
+import com.example.projectpets.data.Vaccine
 import com.example.projectpets.repositories.PetRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -29,6 +31,21 @@ class MyPetsViewModel (private val petRepository: PetRepository) : ViewModel() {
             _pets.postValue(petList)
         }
     }
+
+    private val _singlePet = MutableLiveData<Pet>()
+    val singlePet: LiveData<Pet> = _singlePet
+
+    fun loadSinglePet(petId: Int) = viewModelScope.launch {
+        petRepository.getSinglePet(petId).collect { petList ->
+            if (petList.isNotEmpty()) {
+                _singlePet.postValue(petList.first())
+            } else {
+                println("No pet found with ID: $petId")
+            }
+        }
+    }
+
+    fun getPet(idPet:Int): Flow<List<Pet>> = petRepository.getSinglePet(idPet)
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

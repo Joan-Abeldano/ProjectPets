@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,22 +23,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.projectpets.nav.Routes
+import com.example.projectpets.viewmodel.MyPetsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PetDetailScreen(
-    petName: String,
-    petDescription: String,
+    petId: Int,
     petPhotos: List<String>,
     onBackClick: () -> Unit,
-    onVaccineControlClick: () -> Unit,
-    onReminderClick: () -> Unit //Nuevo parámetro
-
+    onVaccineControlClick: (Int) -> Unit,
+    onReminderClick: () -> Unit, //Nuevo parámetro
+    viewModel: MyPetsViewModel = viewModel(factory = MyPetsViewModel.Factory)
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
     var showBottomSheet by remember { mutableStateOf(false) }
+
+    val pet by viewModel.singlePet.observeAsState()
+
+    LaunchedEffect(petId) {
+        viewModel.loadSinglePet(petId)
+    }
+
+    if (pet == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
 
     Column(
         modifier = Modifier
@@ -51,7 +70,7 @@ fun PetDetailScreen(
                 scrolledContainerColor = MaterialTheme.colorScheme.primary
             ),
             title = {
-                Text(text = petName, maxLines = 1,
+                Text(text = pet?.name ?: "", maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.surface,
                     fontSize = 20.sp,
@@ -96,7 +115,7 @@ fun PetDetailScreen(
 
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = petDescription,
+                text = pet?.description ?: "",
                 fontSize = 16.sp,
                 lineHeight = 22.sp,
                 color = MaterialTheme.colorScheme.primary
@@ -153,7 +172,7 @@ fun PetDetailScreen(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text("Detalles del control de $petName", color = Color.White)
+                Text("Detalles del control de ${pet?.name ?: ""}", color = Color.White)
             }
         }
     }
@@ -165,10 +184,11 @@ fun PetDetailScreen(
             containerColor = Color.White
         ) {
             PetDetailsBottomSheetContent(
-                petName = petName,
+                petName = pet?.name ?: "",
                 onDismiss = { showBottomSheet = false },
                 onVaccineControlClick = onVaccineControlClick,
-                onReminderClick = onReminderClick // Aquí pasé el nuevo parametro
+                onReminderClick = onReminderClick, // Aquí pasé el nuevo parametro
+                petId = petId
             )
         }
     }
@@ -178,8 +198,9 @@ fun PetDetailScreen(
 fun PetDetailsBottomSheetContent(
     petName: String,
     onDismiss: () -> Unit,
-    onVaccineControlClick: () -> Unit,
-    onReminderClick: () -> Unit //Nuevo parametro
+    onVaccineControlClick: (Int) -> Unit,
+    onReminderClick: () -> Unit,
+    petId: Int
 ) {
     Column(
         modifier = Modifier
@@ -202,7 +223,10 @@ fun PetDetailsBottomSheetContent(
         BottomSheetOption(
             icon = "💉",
             text = "Seguimiento Control de Vacuna",
-            onClick = onVaccineControlClick
+            onClick = {
+                onDismiss()
+                onVaccineControlClick(petId) // This should use the petId
+            }
         )
 
         BottomSheetOption(
