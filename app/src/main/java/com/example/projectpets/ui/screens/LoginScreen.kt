@@ -156,7 +156,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             ) {
                 Text(
                     text = "Iniciar Sesión",
-                    fontSize = 24.sp
+                    fontSize = 24.sp,
+                    color = Color.White
                 )
             }
             HorizontalDivider(

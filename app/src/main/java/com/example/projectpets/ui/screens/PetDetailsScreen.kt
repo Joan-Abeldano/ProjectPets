@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,9 +19,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.example.projectpets.nav.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +32,9 @@ fun PetDetailScreen(
     petDescription: String,
     petPhotos: List<String>,
     onBackClick: () -> Unit,
-    onVaccineControlClick: () -> Unit
+    onVaccineControlClick: () -> Unit,
+    onReminderClick: () -> Unit //Nuevo parámetro
+
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -39,28 +44,62 @@ fun PetDetailScreen(
             .fillMaxSize()
             .background(Color(0xFFF7F7F7))
     ) {
-        TopAppBar(
+        CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.primary,
+                scrolledContainerColor = MaterialTheme.colorScheme.primary
+            ),
             title = {
-                Text(text = petName, fontWeight = FontWeight.Bold)
+                Text(text = petName, maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.surface,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
             },
             navigationIcon = {
-                IconButton(onClick = onBackClick) {
+                IconButton(onClick = onBackClick,
+                    colors = IconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Transparent,
+                        disabledContentColor = MaterialTheme.colorScheme.surface,
+                        disabledContainerColor = Color.Transparent
+                    )
+                    ) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Atrás")
                 }
             },
             actions = {
-                IconButton(onClick = { showBottomSheet = true }) {
+                IconButton(onClick = { showBottomSheet = true },
+                    colors = IconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Transparent,
+                        disabledContentColor = MaterialTheme.colorScheme.surface,
+                        disabledContainerColor = Color.Transparent
+                    )
+                    ) {
                     Icon(Icons.Default.MoreVert, contentDescription = "Más")
                 }
-            },
-            colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Color(0xFF8CB1C7))
+                IconButton(onClick = { /* perfil */ },
+                    colors = IconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Transparent,
+                        disabledContentColor = MaterialTheme.colorScheme.surface,
+                        disabledContainerColor = Color.Transparent
+                    )
+                ) {
+                    Icon(Icons.Default.Person, contentDescription = "Perfil")
+                }
+            }
         )
 
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = petDescription,
                 fontSize = 16.sp,
-                lineHeight = 22.sp
+                lineHeight = 22.sp,
+                color = MaterialTheme.colorScheme.primary
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -112,7 +151,7 @@ fun PetDetailScreen(
             Button(
                 onClick = { showBottomSheet = true },
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8CB1C7))
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
                 Text("Detalles del control de $petName", color = Color.White)
             }
@@ -128,7 +167,8 @@ fun PetDetailScreen(
             PetDetailsBottomSheetContent(
                 petName = petName,
                 onDismiss = { showBottomSheet = false },
-                onVaccineControlClick
+                onVaccineControlClick = onVaccineControlClick,
+                onReminderClick = onReminderClick // Aquí pasé el nuevo parametro
             )
         }
     }
@@ -138,7 +178,8 @@ fun PetDetailScreen(
 fun PetDetailsBottomSheetContent(
     petName: String,
     onDismiss: () -> Unit,
-    onVaccineControlClick: () -> Unit
+    onVaccineControlClick: () -> Unit,
+    onReminderClick: () -> Unit //Nuevo parametro
 ) {
     Column(
         modifier = Modifier
@@ -170,6 +211,8 @@ fun PetDetailsBottomSheetContent(
             onClick = {
                 // Acción para recordatorios
                 onDismiss()
+                onReminderClick() //Navegación a Reminders
+
             }
         )
 
@@ -203,12 +246,14 @@ fun BottomSheetOption(
         Text(
             text = icon,
             fontSize = 20.sp,
-            modifier = Modifier.padding(end = 16.dp)
+            modifier = Modifier.padding(end = 16.dp),
+            color = MaterialTheme.colorScheme.primary // Color del icono
         )
         Text(
             text = text,
             fontSize = 16.sp,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }

@@ -40,16 +40,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddPetScreen() {
+fun AddPetScreen(onBackClick: () -> Unit = {}) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -65,13 +67,13 @@ fun AddPetScreen() {
                         "Añadir Mascota",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.surface
+                        color = MaterialTheme.colorScheme.surface,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        //Volver atras
-                    },
+                    IconButton(onClick = onBackClick,
                         colors = IconButtonColors(
                             contentColor = MaterialTheme.colorScheme.surface,
                             containerColor = Color.Transparent,

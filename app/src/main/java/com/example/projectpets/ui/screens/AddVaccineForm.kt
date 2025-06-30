@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -38,27 +39,38 @@ fun AddVaccineForm(
             .fillMaxSize()
     ) {
         // Top App Bar
-        TopAppBar(
+        CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.primary,
+                scrolledContainerColor = MaterialTheme.colorScheme.primary
+            ),
             title = {
                 Text(
                     text = "Agregar vacunas",
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.surface,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
                 )
             },
             navigationIcon = {
-                IconButton(onClick = onBackClick) {
+                IconButton(onClick = onBackClick,
+                    colors = IconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Transparent,
+                        disabledContentColor = MaterialTheme.colorScheme.surface,
+                        disabledContainerColor = Color.Transparent
+                    )
+                    ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Volver",
                         tint = Color.White
                     )
                 }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color(0xFF5A8DBE)
-            )
+            }
         )
 
         // Content
@@ -214,9 +226,7 @@ fun AddVaccineForm(
                     .fillMaxWidth()
                     .height(48.dp),
                 shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF2E2E2E)
-                )
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
                 Text(
                     text = "Guardar aplicación de vacuna",
