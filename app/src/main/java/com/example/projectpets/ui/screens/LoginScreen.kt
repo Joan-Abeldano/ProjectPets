@@ -182,52 +182,52 @@ fun LoginScreen(onLoginSuccess: () -> Unit,
                     color = Color.White
                 )
             }
-            HorizontalDivider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier
-                    .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
-            )
-            OutlinedButton(
-                onClick = {
-
-                },
-                modifier = Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth()
-            ) {
-                Icon(Icons.Default.Email,contentDescription = null) //Cambiar por icono de Google
-                Text(
-                    text = "Continuar con Google"
-                )
-            }
-            OutlinedButton(
-                onClick = {
-
-                },
-                modifier = Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth()
-            ) {
-                Icon(Icons.Default.Email,contentDescription = null) //Cambiar por icono de Facebook
-                Text(
-                    text = "Continuar con Facebook"
-                )
-            }
-            TextButton(
-                onClick = {
-                    //Funcionamiento del boton
-                },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                Text(
-                    text = "¿No tengo una cuenta?, Registrarse",
-                    maxLines = 1,
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
+//            HorizontalDivider(
+//                color = Color.Gray,
+//                thickness = 1.dp,
+//                modifier = Modifier
+//                    .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
+//            )
+//            OutlinedButton(
+//                onClick = {
+//
+//                },
+//                modifier = Modifier
+//                    .padding(4.dp)
+//                    .fillMaxWidth()
+//            ) {
+//                Icon(Icons.Default.Email,contentDescription = null) //Cambiar por icono de Google
+//                Text(
+//                    text = "Continuar con Google"
+//                )
+//            }
+//            OutlinedButton(
+//                onClick = {
+//
+//                },
+//                modifier = Modifier
+//                    .padding(4.dp)
+//                    .fillMaxWidth()
+//            ) {
+//                Icon(Icons.Default.Email,contentDescription = null) //Cambiar por icono de Facebook
+//                Text(
+//                    text = "Continuar con Facebook"
+//                )
+//            }
+//            TextButton(
+//                onClick = {
+//                    //Funcionamiento del boton
+//                },
+//                modifier = Modifier
+//                    .align(Alignment.CenterHorizontally)
+//            ) {
+//                Text(
+//                    text = "¿No tengo una cuenta?, Registrarse",
+//                    maxLines = 1,
+//                    fontSize = 12.sp,
+//                    color = MaterialTheme.colorScheme.secondary
+//                )
+//            }
         }
     }
 }

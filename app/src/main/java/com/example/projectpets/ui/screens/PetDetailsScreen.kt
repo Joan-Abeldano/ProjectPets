@@ -228,26 +228,26 @@ fun PetDetailsBottomSheetContent(
                 onVaccineControlClick(petId) // This should use the petId
             }
         )
-
-        BottomSheetOption(
-            icon = "🏷️",
-            text = "Recordatorios",
-            onClick = {
-                // Acción para recordatorios
-                onDismiss()
-                onReminderClick() //Navegación a Reminders
-
-            }
-        )
-
-        BottomSheetOption(
-            icon = "📋",
-            text = "Exportar historial de vacunación de $petName",
-            onClick = {
-                // Acción para exportar
-                onDismiss()
-            }
-        )
+//
+//        BottomSheetOption(
+//            icon = "🏷️",
+//            text = "Recordatorios",
+//            onClick = {
+//                // Acción para recordatorios
+//                onDismiss()
+//                onReminderClick() //Navegación a Reminders
+//
+//            }
+//        )
+//
+//        BottomSheetOption(
+//            icon = "📋",
+//            text = "Exportar historial de vacunación de $petName",
+//            onClick = {
+//                // Acción para exportar
+//                onDismiss()
+//            }
+//        )
 
         // Espacio adicional al final
         Spacer(modifier = Modifier.height(32.dp))

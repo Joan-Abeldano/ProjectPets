@@ -88,7 +88,7 @@ fun SplashScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
             }
             Spacer(modifier = Modifier.width(5.dp))
             Button(
-                onClick = { /* TODO: Navegar a Signup */ },
+                onClick = onRegisterClick,
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107))
             ) {
                 Text("Signup", color = Color.Black, fontWeight = FontWeight.W900)
