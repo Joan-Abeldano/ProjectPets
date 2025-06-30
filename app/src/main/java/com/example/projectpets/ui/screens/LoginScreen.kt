@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit) {
+fun LoginScreen(onLoginSuccess: () -> Unit, onRegisterClick: () -> Unit) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val mContext = LocalContext.current
@@ -193,9 +193,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 )
             }
             TextButton(
-                onClick = {
-                    //Funcionamiento del boton
-                },
+                onClick = onRegisterClick,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
             ) {
