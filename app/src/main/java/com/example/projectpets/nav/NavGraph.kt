@@ -109,7 +109,6 @@ fun Nav() {
 
         composable(Routes.MY_PETS) {
             MyPetsScreen(
-                petData,
                 onPetClick = {
                     navController.navigate(Routes.PET_DETAILS)
                 },

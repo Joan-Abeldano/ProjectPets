@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.room)
     implementation(libs.androidx.navigation)
+    implementation(libs.androidx.runtime.livedata)
     ksp(libs.androidx.ksp)
     implementation(platform(libs.androidx.compose.bom.v20250500))
     testImplementation(libs.junit)

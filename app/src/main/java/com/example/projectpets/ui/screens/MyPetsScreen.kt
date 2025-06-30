@@ -29,6 +29,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,12 +39,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projectpets.data.Pet
 import com.example.projectpets.models.PetData
+import com.example.projectpets.viewmodel.MyPetsViewModel
+import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPetsScreen(petData: List<PetData>, onPetClick: () -> Unit, onAddPetClick: () -> Unit) {
+fun MyPetsScreen(onPetClick: () -> Unit, onAddPetClick: () -> Unit,
+                 viewModel: MyPetsViewModel = viewModel(factory = MyPetsViewModel.Factory)
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val petData by viewModel.pets.observeAsState(emptyList())
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -120,7 +129,7 @@ fun MyPetsScreen(petData: List<PetData>, onPetClick: () -> Unit, onAddPetClick: 
 
 
 @Composable
-fun ScrollContent(innerPadding: PaddingValues, petsList: List<PetData>, onPetClick: () -> Unit) {
+fun ScrollContent(innerPadding: PaddingValues, petsList: List<Pet>, onPetClick: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)

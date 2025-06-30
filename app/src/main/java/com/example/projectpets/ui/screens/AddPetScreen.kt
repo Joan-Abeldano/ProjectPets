@@ -45,13 +45,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projectpets.models.PetData
+import com.example.projectpets.viewmodel.AddPetViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddPetScreen(onBackClick: () -> Unit = {}) {
+fun AddPetScreen(onBackClick: () -> Unit = {},
+                 viewModel: AddPetViewModel = viewModel(factory = AddPetViewModel.Factory)
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -108,12 +113,12 @@ fun AddPetScreen(onBackClick: () -> Unit = {}) {
             )
         },
     ) { innerPadding ->
-        ScrollContent(innerPadding)
+        ScrollContent(innerPadding,viewModel)
     }
 }
 
 @Composable
-fun ScrollContent(innerPadding: PaddingValues) {
+fun ScrollContent(innerPadding: PaddingValues,viewModel: AddPetViewModel) {
     var petName by remember { mutableStateOf("") }
     var petDescription by remember { mutableStateOf("") }
     var petType by remember { mutableStateOf("") }
@@ -190,6 +195,7 @@ fun ScrollContent(innerPadding: PaddingValues) {
             Button(
                 onClick = {
                     //Agregar mascota a BD y volver a MyPetsScreen
+                    viewModel.insertPet(PetData(petName,petDescription,formattedDate,petType))
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier
@@ -250,8 +256,8 @@ fun formatDate(millis: Long?): String {
     return format.format(date)
 }
 
-@Preview
-@Composable
-fun AddPetScreenPreview() {
-    AddPetScreen()
-}
+//@Preview
+//@Composable
+//fun AddPetScreenPreview() {
+//    AddPetScreen()
+//}
